@@ -4,17 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.andela.suada.currencyexchangerate.R;
+import com.andela.suada.currencyexchangerate.data.CurrencyCallback;
+import com.andela.suada.currencyexchangerate.data.CurrencyReceiver;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 
 
 public class HomeActivity extends AppCompatActivity {
     private EditText edExchangeValue;
     private Spinner spinnerCurrency;
     private Button searchButton;
+    private CurrencyReceiver reciever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,14 @@ public class HomeActivity extends AppCompatActivity {
         edExchangeValue = (EditText) findViewById(R.id.etexchangeValue);
         spinnerCurrency = (Spinner) findViewById(R.id.currencySpinner);
         searchButton = (Button) findViewById(R.id.currencySearch);
+        reciever = new CurrencyReceiver(new CurrencyCallback() {
+            @Override
+            public void onCurrencyFetched(Map<String, Double> currencyList) {
+                presentDataToSpinner(currencyList);
+                System.out.println(currencyList);
+            }
+        });
+        reciever.getCurrencyList();
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,6 +53,17 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void presentDataToSpinner(Map<String, Double> currencyList) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayAdapter<String> arrayAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, arrayList);
+        for (String rate : currencyList.keySet()) {
+            arrayList.add(rate);
+        }
+        Collections.sort(arrayList);
+        spinnerCurrency.setAdapter(arrayAdapter);
     }
 
 }
