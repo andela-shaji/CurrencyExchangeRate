@@ -1,7 +1,11 @@
 package com.andela.suada.currencyexchangerate.activities;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -64,6 +68,16 @@ public class HomeActivity extends AppCompatActivity {
         }
         Collections.sort(arrayList);
         spinnerCurrency.setAdapter(arrayAdapter);
+    }
+
+    public void storeIntent() {
+        Intent sendIntent = new Intent(getBaseContext(), ResultActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                12345, sendIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager am =
+                (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),
+                23 * 60 * 60 * 1000,pendingIntent);
     }
 
 }
