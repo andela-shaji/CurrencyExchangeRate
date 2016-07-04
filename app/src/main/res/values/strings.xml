@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Currency Exchange Rate</string>
+    <string name="welcome_msg">Welcome to Currency Exchange Rate</string>
+    <string name="exchange_value">Enter value</string>
+    <string name="exchange_currency">Select the Currency</string>
+    <string name="base_currency">USD</string>
+    <string name="amount_to">amounts to </string>
+    <string name="search_currency">Search</string>
+
+
+
+
+</resources>
